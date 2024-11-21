@@ -1,6 +1,7 @@
 import networkx
 import csv
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Initialize a graph
 social_graph = networkx.Graph()
@@ -32,4 +33,24 @@ fig, ax = plt.subplots(figsize=(15, 9))
 plot_options = {"node_size": 500, "with_labels": True, "width": 1, "node_color": "#01039B", "font_color": "#FFFFFF"}
 ax.axis("off")
 networkx.draw_networkx(social_graph, pos=pos, ax=ax, **plot_options)
-plt.savefig("outputs/social_graph.svg", format="svg", transparent=True)
+plt.savefig("outputs/social_graph.svg", format="svg", transparent=False)
+# Clear the plot
+plt.clf()
+
+# Create degree distribution of the graph
+x = ["Degree 1", "Degree 2", "Degree 3", "Degree 4", "Degree 5", "Degree >5"]
+y = []
+degrees = [social_graph.degree(node) for node in social_graph.nodes()]
+# Degrees 1 thru 5
+for i in range(1, 6):
+    y.append(len([degree for degree in degrees if degree == i])/social_graph.number_of_nodes())
+# Degrees >5
+y.append(len([degree for degree in degrees if degree > 5])/social_graph.number_of_nodes())
+plt.bar(x, y, color="#01039B")
+plt.xlabel("Degree")
+plt.ylabel("Percentage of nodes")
+plt.title("Degree distribution of the social graph")
+# Save the degree distribution plot
+plt.savefig("outputs/degree_distribution.svg", format="svg", transparent=False)
+# Clear the plot
+plt.clf()
