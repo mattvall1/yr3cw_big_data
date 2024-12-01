@@ -54,3 +54,33 @@ plt.title("Degree distribution of the social graph")
 plt.savefig("outputs/degree_distribution.svg", format="svg", transparent=False)
 # Clear the plot
 plt.clf()
+
+# Analyze betweenness centrality
+betweenness_centrality = networkx.betweenness_centrality(social_graph)
+# Plot betweenness centrality
+plt.hist(betweenness_centrality.values(), bins=100, color="#01039B")
+plt.title("Betweenness centrality histogram")
+plt.xlabel("Betweenness centrality")
+plt.ylabel("Number of nodes")
+# Save the betweenness centrality plot
+plt.savefig("outputs/betweenness_centrality.svg", format="svg", transparent=False)
+# Clear the plot
+plt.clf()
+
+# Analyze closeness centrality
+closeness_centrality = networkx.closeness_centrality(social_graph)
+# Plot closeness centrality
+plt.hist(closeness_centrality.values(), bins=100, color="#01039B")
+plt.title("Closeness centrality histogram")
+plt.xlabel("Closeness centrality")
+plt.ylabel("Number of nodes")
+# Save the closeness centrality plot
+plt.savefig("outputs/closeness_centrality.svg", format="svg", transparent=False)
+
+
+
+
+
+
+
+
