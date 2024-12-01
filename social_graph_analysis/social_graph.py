@@ -1,7 +1,7 @@
 import networkx
 import csv
 import matplotlib.pyplot as plt
-import numpy as np
+import seaborn as sns
 
 # Initialize a graph
 social_graph = networkx.Graph()
@@ -37,6 +37,10 @@ plt.savefig("outputs/social_graph.svg", format="svg", transparent=False)
 # Clear the plot
 plt.clf()
 
+# Get the diameter of the graph
+diameter = networkx.diameter(social_graph)
+print("Diameter: " + str(diameter))
+
 # Create degree distribution of the graph
 x = ["Degree 1", "Degree 2", "Degree 3", "Degree 4", "Degree 5", "Degree >5"]
 y = []
@@ -58,7 +62,7 @@ plt.clf()
 # Analyze betweenness centrality
 betweenness_centrality = networkx.betweenness_centrality(social_graph)
 # Plot betweenness centrality
-plt.hist(betweenness_centrality.values(), bins=100, color="#01039B")
+plt.hist(betweenness_centrality.values(), bins=20, color="#01039B")
 plt.title("Betweenness centrality histogram")
 plt.xlabel("Betweenness centrality")
 plt.ylabel("Number of nodes")
@@ -77,6 +81,25 @@ plt.ylabel("Number of nodes")
 # Save the closeness centrality plot
 plt.savefig("outputs/closeness_centrality.svg", format="svg", transparent=False)
 
+# Analyze clustering coefficient
+clustering_coefficient = networkx.clustering(social_graph)
+# Plot clustering coefficient
+plt.hist(clustering_coefficient.values(), bins=20, color="#01039B")
+plt.title("Clustering coefficient histogram")
+plt.xlabel("Clustering coefficient")
+plt.ylabel("Number of nodes")
+# Save the clustering coefficient plot
+plt.savefig("outputs/clustering_coefficient.svg", format="svg", transparent=False)
+
+# Plot clustering coefficient CDF
+sns.ecdfplot(x=networkx.clustering(social_graph).values())
+plt.title("Clustering Coefficient CDF", fontdict={"size": 15}, loc="center")
+plt.xlabel("Clustering Coefficient", fontdict={"size": 10})
+plt.ylabel("proportion", fontdict={"size": 10})
+# Save the clustering coefficient CDF plot
+plt.savefig("outputs/clustering_coefficient_cdf.svg", format="svg", transparent=False)
+# Clear the plot
+plt.clf()
 
 
 
