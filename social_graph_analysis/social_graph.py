@@ -11,7 +11,7 @@ with open('data/people.csv', 'r') as file:
     reader = csv.reader(file)
     row_count = 0
     for row in reader:
-        if row_count > 1: # Skip first line (CSV header)
+        if row_count > 0: # Skip first line (CSV header)
             social_graph.add_node(int(row[0]), name=row[1])
         row_count += 1
 
@@ -20,26 +20,25 @@ with open('data/friendships.csv', 'r') as file:
     reader = csv.reader(file)
     row_count = 0
     for row in reader:
-        if row_count > 1: # Skip first line (CSV header)
+        if row_count > 0: # Skip first line (CSV header)
             social_graph.add_edge(int(row[0]), int(row[1]))
         row_count += 1
 
 # Print graph overview
 print(social_graph)
 
-# Create overview visualisation of the graph
-pos = networkx.spring_layout(social_graph, iterations=50, seed=4)
-fig, ax = plt.subplots(figsize=(15, 9))
-plot_options = {"node_size": 500, "with_labels": True, "width": 1, "node_color": "#01039B", "font_color": "#FFFFFF"}
-ax.axis("off")
-networkx.draw_networkx(social_graph, pos=pos, ax=ax, **plot_options)
-plt.savefig("outputs/social_graph.svg", format="svg", transparent=False)
-# Clear the plot
-plt.clf()
-
 # Get the diameter of the graph
 diameter = networkx.diameter(social_graph)
 print("Diameter: " + str(diameter))
+
+# Extract node names
+labels = {node: data['name'] for node, data in social_graph.nodes(data=True)}
+pos = networkx.spring_layout(social_graph, seed=25, k=0.3)
+plt.figure(figsize=(15, 9))
+networkx.draw(social_graph, pos, labels=labels, node_size=500, node_color="#80CEFF", font_color="#000000", with_labels=True)
+plt.axis("off")
+plt.savefig("outputs/social_graph.svg", format="svg", transparent=False)
+plt.clf()
 
 # Create degree distribution of the graph
 x = ["Degree 1", "Degree 2", "Degree 3", "Degree 4", "Degree 5", "Degree >5"]
