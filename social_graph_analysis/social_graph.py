@@ -2,6 +2,7 @@ import networkx
 import csv
 import matplotlib.pyplot as plt
 import seaborn as sns
+from prettytable import PrettyTable
 
 # Initialize a graph
 social_graph = networkx.Graph()
@@ -27,32 +28,41 @@ with open('data/friendships.csv', 'r') as file:
 # Print graph overview
 print(social_graph)
 
-# Get the diameter of the graph
-diameter = networkx.diameter(social_graph)
-print("Diameter: " + str(diameter))
-
 # Extract node names
 labels = {node: data['name'] for node, data in social_graph.nodes(data=True)}
 pos = networkx.spring_layout(social_graph, seed=25, k=0.3)
 plt.figure(figsize=(15, 9))
-networkx.draw(social_graph, pos, labels=labels, node_size=500, node_color="#80CEFF", font_color="#000000", with_labels=True)
+networkx.draw(social_graph, pos, labels=labels, node_size=500, node_color="#80CEFF", edge_color="#FF5733", font_color="#000000", with_labels=True)
 plt.axis("off")
 plt.savefig("outputs/social_graph.svg", format="svg", transparent=False)
 plt.clf()
 
-# Create degree distribution of the graph
+# Get the diameter of the graph
+diameter = networkx.diameter(social_graph)
+print("Diameter: " + str(diameter))
+
+# Analyze the degree distribution
+# Get degrees of all nodes with their corresponding names (display as a table)
+degree_table = PrettyTable()
+degree_table.field_names = ["Degree", "Name"]
+ordered_degrees = sorted([(social_graph.degree(node), social_graph.nodes[node]['name']) for node in social_graph.nodes()], reverse=True)
+for degree, name in ordered_degrees:
+    degree_table.add_row([degree, name])
+print(degree_table)
+
+# Create degree distribution bar chart
 x = ["Degree 1", "Degree 2", "Degree 3", "Degree 4", "Degree 5", "Degree >5"]
 y = []
 degrees = [social_graph.degree(node) for node in social_graph.nodes()]
 # Degrees 1 thru 5
-for i in range(1, 6):
-    y.append(len([degree for degree in degrees if degree == i])/social_graph.number_of_nodes())
+for i in range(5):
+    y.append(len([degree for degree in degrees if degree == i+1])/social_graph.number_of_nodes())
 # Degrees >5
 y.append(len([degree for degree in degrees if degree > 5])/social_graph.number_of_nodes())
-plt.bar(x, y, color="#01039B")
+plt.bar(x, y, color="#80CEFF")
 plt.xlabel("Degree")
 plt.ylabel("Percentage of nodes")
-plt.title("Degree distribution of the social graph")
+plt.title("Degree distribution of the Social Graph")
 # Save the degree distribution plot
 plt.savefig("outputs/degree_distribution.svg", format="svg", transparent=False)
 # Clear the plot
