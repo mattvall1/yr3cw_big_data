@@ -1,7 +1,5 @@
 # ---------- My "ignores" ----------
 .DS_Store
-social_graph_analysis/outputs/
-hotel_information_visualisation/outputs/
 
 
 # ---------- GitHub Python .gitignore template -----------
