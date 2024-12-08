@@ -43,11 +43,13 @@ print("Diameter: " + str(diameter))
 
 # Analyze the degree distribution
 # Get degrees of all nodes with their corresponding names (display as a table)
-degree_table = PrettyTable()
-degree_table.field_names = ["Degree", "Name"]
 ordered_degrees = sorted([(social_graph.degree(node), social_graph.nodes[node]['name']) for node in social_graph.nodes()], reverse=True)
+degree_dict = {}
+degree_table = PrettyTable(["Degree", "Names"])
 for degree, name in ordered_degrees:
-    degree_table.add_row([degree, name])
+    degree_dict.setdefault(degree, []).append(name)
+for degree, names in degree_dict.items():
+    degree_table.add_row([degree, ', '.join(names)])
 print(degree_table)
 
 # Create degree distribution bar chart
@@ -65,18 +67,6 @@ plt.ylabel("Percentage of nodes")
 plt.title("Degree distribution of the Social Graph")
 # Save the degree distribution plot
 plt.savefig("outputs/degree_distribution.svg", format="svg", transparent=False)
-# Clear the plot
-plt.clf()
-
-# Analyze betweenness centrality
-betweenness_centrality = networkx.betweenness_centrality(social_graph)
-# Plot betweenness centrality
-plt.hist(betweenness_centrality.values(), bins=20, color="#01039B")
-plt.title("Betweenness centrality histogram")
-plt.xlabel("Betweenness centrality")
-plt.ylabel("Number of nodes")
-# Save the betweenness centrality plot
-plt.savefig("outputs/betweenness_centrality.svg", format="svg", transparent=False)
 # Clear the plot
 plt.clf()
 
