@@ -1,7 +1,6 @@
 import networkx
 import csv
 import matplotlib.pyplot as plt
-import seaborn as sns
 from prettytable import PrettyTable
 
 # Initialize a graph
@@ -79,7 +78,6 @@ for node, closeness in sorted(closeness_centrality.items(), key=lambda item: ite
 print(closeness_table)
 
 # Create closeness centrality histogram
-# Plot closeness centrality
 plt.hist(closeness_centrality.values(), bins=100, color="#80CEFF")
 plt.title("Closeness Centrality histogram of the Social Graph")
 plt.xlabel("Closeness Centrality")
@@ -88,9 +86,16 @@ plt.ylabel("Number of nodes")
 plt.savefig("outputs/closeness_centrality.svg", format="svg", transparent=False)
 
 # Analyze clustering coefficient
+# Create clustering coefficient table
 clustering_coefficient = networkx.clustering(social_graph)
-# Plot clustering coefficient
-plt.hist(clustering_coefficient.values(), bins=20, color="#01039B")
+clustering_table = PrettyTable(["Name", "Clustering Coefficient"])
+for node, clustering in sorted(clustering_coefficient.items(), key=lambda item: item[1], reverse=True): # Sort by clustering coefficient before putting into table
+    clustering_table.add_row([social_graph.nodes[node]['name'], round(clustering, 3)])
+print(clustering_table)
+
+# Create clustering coefficient histogram
+plt.figure(figsize=(15, 9))
+plt.hist(clustering_coefficient.values(), bins=20, color="#80CEFF")
 plt.title("Clustering coefficient histogram")
 plt.xlabel("Clustering coefficient")
 plt.ylabel("Number of nodes")
