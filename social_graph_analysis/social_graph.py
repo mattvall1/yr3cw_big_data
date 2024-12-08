@@ -71,11 +71,18 @@ plt.savefig("outputs/degree_distribution.svg", format="svg", transparent=False)
 plt.clf()
 
 # Analyze closeness centrality
+# Create closeness centrality table
+closeness_table = PrettyTable(["Name", "Closeness Centrality"])
 closeness_centrality = networkx.closeness_centrality(social_graph)
+for node, closeness in sorted(closeness_centrality.items(), key=lambda item: item[1], reverse=True): # Sort by closeness centrality before putting into table
+    closeness_table.add_row([social_graph.nodes[node]['name'], round(closeness, 3)])
+print(closeness_table)
+
+# Create closeness centrality histogram
 # Plot closeness centrality
-plt.hist(closeness_centrality.values(), bins=100, color="#01039B")
-plt.title("Closeness centrality histogram")
-plt.xlabel("Closeness centrality")
+plt.hist(closeness_centrality.values(), bins=100, color="#80CEFF")
+plt.title("Closeness Centrality histogram of the Social Graph")
+plt.xlabel("Closeness Centrality")
 plt.ylabel("Number of nodes")
 # Save the closeness centrality plot
 plt.savefig("outputs/closeness_centrality.svg", format="svg", transparent=False)
@@ -89,17 +96,6 @@ plt.xlabel("Clustering coefficient")
 plt.ylabel("Number of nodes")
 # Save the clustering coefficient plot
 plt.savefig("outputs/clustering_coefficient.svg", format="svg", transparent=False)
-
-# Plot clustering coefficient CDF
-sns.ecdfplot(x=networkx.clustering(social_graph).values())
-plt.title("Clustering Coefficient CDF", fontdict={"size": 15}, loc="center")
-plt.xlabel("Clustering Coefficient", fontdict={"size": 10})
-plt.ylabel("proportion", fontdict={"size": 10})
-# Save the clustering coefficient CDF plot
-plt.savefig("outputs/clustering_coefficient_cdf.svg", format="svg", transparent=False)
-# Clear the plot
-plt.clf()
-
 
 
 
