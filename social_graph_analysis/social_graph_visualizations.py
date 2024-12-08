@@ -102,8 +102,3 @@ plt.ylabel("Number of nodes")
 # Save the clustering coefficient plot
 plt.savefig("outputs/clustering_coefficient.svg", format="svg", transparent=False)
 
-
-
-
-
-
