@@ -1,6 +1,7 @@
 import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
+from math import ceil
 
 # Read the CSV file into a DataFrame
 hotel_data = pd.read_csv('data/hotel_data.csv', parse_dates=['reservation_date'])
@@ -64,3 +65,21 @@ plt.grid(True)
 plt.savefig("outputs/special_requests_vs_booking_changes.svg", format="svg", transparent=False)
 # Clear the plot
 plt.clf()
+
+# Create a bar chart with the distributions (groups of 25) of the reservations
+# Group data into bins of 25
+maximum_group = int(ceil(hotel_data['reservation_count'].max() / 25) * 25 + 1) # Get maximum group value and round up to the nearest 25
+labels = [f'{i}-{i+25}' for i in range(0, maximum_group-25, 25)] # Create sensible labels for the groups
+grouped_data = hotel_data.groupby(pd.cut(hotel_data['reservation_count'], bins=range(0, maximum_group, 25), labels=labels), observed=False).size()
+
+plt.figure(figsize=(10, 5), tight_layout=True)
+grouped_data.plot(kind='bar', color="#80CEFF")
+plt.title('Distribution of reservations')
+plt.xlabel('Number of reservations')
+plt.ylabel('Number of days')
+plt.xticks(rotation=0)
+plt.grid(True)
+plt.savefig("outputs/reservation_distribution.svg", format="svg", transparent=False)
+# Clear the plot
+plt.clf()
+
