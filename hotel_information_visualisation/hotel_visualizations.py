@@ -46,22 +46,22 @@ plt.clf()
 
 # Create a scatter plot of total special requests against the total number of children
 plt.figure(figsize=(5, 5), tight_layout=True)
-plt.scatter(hotel_data['children'], hotel_data['total_of_special_requests'], color="#ACFF80")
+plt.scatter(hotel_data['children'], hotel_data['total_of_special_requests'], color="#ACFF80", zorder=2)
 plt.title('Impact of number of children on special requests')
 plt.xlabel('Total children')
 plt.ylabel('Total special requests')
-plt.grid(True)
+plt.grid(True, zorder=0)
 plt.savefig("outputs/special_requests_vs_children.svg", format="svg", transparent=False)
 # Clear the plot
 plt.clf()
 
 # Create a scatter plot of special requests against booking changes
 plt.figure(figsize=(5, 5), tight_layout=True)
-plt.scatter(hotel_data['total_of_special_requests'], hotel_data['booking_changes'], color="#FF80FF")
+plt.scatter(hotel_data['total_of_special_requests'], hotel_data['booking_changes'], color="#FF80FF", zorder=2)
 plt.title('Impact of booking changes on special requests')
 plt.ylabel('Total booking changes')
 plt.xlabel('Total special requests')
-plt.grid(True)
+plt.grid(True, zorder=0)
 plt.savefig("outputs/special_requests_vs_booking_changes.svg", format="svg", transparent=False)
 # Clear the plot
 plt.clf()
@@ -73,12 +73,12 @@ labels = [f'{i}-{i+25}' for i in range(0, maximum_group-25, 25)] # Create sensib
 grouped_data = hotel_data.groupby(pd.cut(hotel_data['reservation_count'], bins=range(0, maximum_group, 25), labels=labels), observed=False).size()
 
 plt.figure(figsize=(10, 5), tight_layout=True)
-grouped_data.plot(kind='bar', color="#80CEFF")
+grouped_data.plot(kind='bar', color="#80CEFF", zorder=2)
 plt.title('Distribution of reservations')
 plt.xlabel('Number of reservations')
 plt.ylabel('Number of days')
 plt.xticks(rotation=0)
-plt.grid(True)
+plt.grid(True, zorder=0)
 plt.savefig("outputs/reservation_distribution.svg", format="svg", transparent=False)
 # Clear the plot
 plt.clf()
