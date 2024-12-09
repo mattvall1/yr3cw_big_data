@@ -1,10 +1,13 @@
-import csv
 import pandas as pd
-import datetime
+import seaborn as sns
 from matplotlib import pyplot as plt
 
 # Read the CSV file into a DataFrame
 hotel_data = pd.read_csv('data/hotel_data.csv', parse_dates=['reservation_date'])
+
+# Seaborn plots - To discover correlations within the data (Not used within report)
+seaborn_pairs = sns.pairplot(hotel_data)
+seaborn_pairs.savefig("outputs/seaborn_pairplot.svg", format="svg", transparent=False)
 
 
 # Plot the number of reservations per day on a line chart with relevant averages
