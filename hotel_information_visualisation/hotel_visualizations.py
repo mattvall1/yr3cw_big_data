@@ -54,3 +54,13 @@ plt.savefig("outputs/special_requests_vs_children.svg", format="svg", transparen
 # Clear the plot
 plt.clf()
 
+# Create a scatter plot of special requests against booking changes
+plt.figure(figsize=(5, 5), tight_layout=True)
+plt.scatter(hotel_data['total_of_special_requests'], hotel_data['booking_changes'], color="#FF80FF")
+plt.title('Impact of booking changes on special requests')
+plt.ylabel('Total booking changes')
+plt.xlabel('Total special requests')
+plt.grid(True)
+plt.savefig("outputs/special_requests_vs_booking_changes.svg", format="svg", transparent=False)
+# Clear the plot
+plt.clf()
