@@ -45,4 +45,14 @@ plt.savefig("outputs/adults_vs_children.svg", format="svg", transparent=False)
 # Clear the plot
 plt.clf()
 
+# Create a scatter plot of total special requests against the total number of children
+plt.figure(figsize=(5, 5), tight_layout=True)
+plt.scatter(hotel_data['children'], hotel_data['total_of_special_requests'], color="#ACFF80")
+plt.title('Impact of number of children on special requests')
+plt.xlabel('Total children')
+plt.ylabel('Total special requests')
+plt.grid(True)
+plt.savefig("outputs/special_requests_vs_children.svg", format="svg", transparent=False)
+# Clear the plot
+plt.clf()
 
