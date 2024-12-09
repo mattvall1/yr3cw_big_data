@@ -1,7 +1,6 @@
 import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
-from matplotlib.pyplot import tight_layout
 
 # Read the CSV file into a DataFrame
 hotel_data = pd.read_csv('data/hotel_data.csv', parse_dates=['reservation_date'])
@@ -16,7 +15,7 @@ seaborn_pairs.savefig("outputs/seaborn_pairplot.svg", format="svg", transparent=
 averaged_data_5D = hotel_data.resample('5D', on='reservation_date').mean().reset_index()
 average_reservation_count = hotel_data['reservation_count'].mean()
 
-plt.figure(figsize=(25, 5))
+plt.figure(figsize=(25, 5), tight_layout=True)
 plt.plot(hotel_data['reservation_date'], hotel_data['reservation_count'], color="#80CEFF", label="Daily reservations")
 plt.gca().set_prop_cycle(None)
 plt.plot(averaged_data_5D['reservation_date'], averaged_data_5D['reservation_count'], color="red", linestyle='dashed', label="5-day average")
@@ -25,7 +24,6 @@ plt.title('Reservations over time', fontsize=20)
 plt.xlabel('Date', fontsize=15)
 plt.ylabel('Number of Reservations', fontsize=15)
 plt.legend(fontsize=15)
-plt.subplots_adjust(left=0.03, right=0.99, bottom=0.25)
 plt.grid(True)
 plt.xticks(hotel_data['reservation_date'][::5], rotation=90)
 plt.xlim(hotel_data['reservation_date'].min(), hotel_data['reservation_date'].max()) # Set the x-axis limits to the min and max dates (keeps chart tight)
