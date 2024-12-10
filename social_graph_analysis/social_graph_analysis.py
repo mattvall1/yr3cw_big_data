@@ -27,11 +27,11 @@ with open('data/friendships.csv', 'r') as file:
 # Print graph overview
 print(social_graph)
 
-# Extract node names
+# Draw social graph
 labels = {node: data['name'] for node, data in social_graph.nodes(data=True)}
 pos = networkx.spring_layout(social_graph, seed=25, k=0.3)
 plt.figure(figsize=(15, 9))
-networkx.draw(social_graph, pos, labels=labels, node_size=500, node_color="#80CEFF", edge_color="#FF5733", font_color="#000000", with_labels=True)
+networkx.draw(social_graph, pos, labels=labels, node_size=500, node_color="#80CEFF", edge_color="#A5A5A5", font_color="#000000", with_labels=True)
 plt.axis("off")
 plt.savefig("outputs/social_graph.svg", format="svg", transparent=False)
 plt.clf()
@@ -55,15 +55,15 @@ print(degree_table)
 x = ["Degree 1", "Degree 2", "Degree 3", "Degree 4", "Degree 5", "Degree >5"]
 y = []
 degrees = [social_graph.degree(node) for node in social_graph.nodes()]
-# Degrees 1 thru 5
-for i in range(5):
+for i in range(5): # Degrees 1 thru 5
     y.append(len([degree for degree in degrees if degree == i+1])/social_graph.number_of_nodes())
-# Degrees >5
-y.append(len([degree for degree in degrees if degree > 5])/social_graph.number_of_nodes())
+y.append(len([degree for degree in degrees if degree > 5])/social_graph.number_of_nodes()) # Degrees >5
+
+plt.figure(figsize=(10, 6), tight_layout=True)
 plt.bar(x, y, color="#80CEFF")
-plt.xlabel("Degree")
-plt.ylabel("Percentage of nodes")
-plt.title("Degree distribution of the Social Graph")
+plt.title("Degree distribution of the Social Graph", fontsize=20)
+plt.xlabel("Degree", fontsize=15)
+plt.ylabel("Percentage of nodes", fontsize=15)
 # Save the degree distribution plot
 plt.savefig("outputs/degree_distribution.svg", format="svg", transparent=False)
 # Clear the plot
@@ -78,10 +78,11 @@ for node, closeness in sorted(closeness_centrality.items(), key=lambda item: ite
 print(closeness_table)
 
 # Create closeness centrality histogram
+plt.figure(figsize=(15, 9), tight_layout=True)
 plt.hist(closeness_centrality.values(), bins=100, color="#80CEFF")
-plt.title("Closeness Centrality histogram of the Social Graph")
-plt.xlabel("Closeness Centrality")
-plt.ylabel("Number of nodes")
+plt.title("Closeness Centrality histogram of the Social Graph", fontsize=20)
+plt.xlabel("Closeness Centrality", fontsize=15)
+plt.ylabel("Number of nodes", fontsize=15)
 # Save the closeness centrality plot
 plt.savefig("outputs/closeness_centrality.svg", format="svg", transparent=False)
 
@@ -94,11 +95,11 @@ for node, clustering in sorted(clustering_coefficient.items(), key=lambda item: 
 print(clustering_table)
 
 # Create clustering coefficient histogram
-plt.figure(figsize=(15, 9))
+plt.figure(figsize=(15, 9), tight_layout=True)
 plt.hist(clustering_coefficient.values(), bins=20, color="#80CEFF")
-plt.title("Clustering coefficient histogram")
-plt.xlabel("Clustering coefficient")
-plt.ylabel("Number of nodes")
+plt.title("Clustering coefficient histogram", fontsize=20)
+plt.xlabel("Clustering coefficient", fontsize=15)
+plt.ylabel("Number of nodes", fontsize=15)
 # Save the clustering coefficient plot
 plt.savefig("outputs/clustering_coefficient.svg", format="svg", transparent=False)
 
